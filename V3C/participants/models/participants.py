@@ -7,17 +7,17 @@ class Participant(models.Model):
 
     
     event = models.ForeignKey(Conference, 
-                                on_delete=models.CASCADE, 
-                                related_name='name',
-                                verbose_name='Событие')
+                            on_delete=models.CASCADE, 
+                            related_name='names',
+                            verbose_name='Событие')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, 
-                                on_delete=models.CASCADE, 
-                                related_name='email',
-                                verbose_name='Пользователь')
+                            on_delete=models.CASCADE, 
+                            related_name='emails',
+                            verbose_name='Пользователь')
     role = models.ForeignKey(ParticipantRole, 
-                             on_delete=models.PROTECT, 
-                             related_name='role',
-                             verbose_name='Роль участника')
+                            on_delete=models.PROTECT, 
+                            related_name='roles',
+                            verbose_name='Роль участника')
 
     class Meta:
         verbose_name = 'Участник'

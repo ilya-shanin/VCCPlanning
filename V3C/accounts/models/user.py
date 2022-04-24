@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 class CustomUserManager(BaseUserManager):
     """ User manager """
 
-    def _create_user(self, email, first_name, last_name, password=None, **extra_fields):
+    def _create_user(self, email, password, first_name, last_name, **extra_fields):
         """Creates and returns a new user using an email address"""
         if not email:  # check for an empty email
             raise AttributeError("User must set an email address")
@@ -20,13 +20,13 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)  # safe for multiple databases
         return user
 
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, password, email, first_name, last_name, **extra_fields):
         """Creates and returns a new user using an email address"""
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(email, password, first_name, last_name, **extra_fields)
 
-    def create_staffuser(self, email, password=None, **extra_fields):
+    def create_staffuser(self, password, email, first_name, last_name, **extra_fields):
         """Creates and returns a new staffuser using an email address"""
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", False)
@@ -34,9 +34,9 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
         
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(email, password, first_name, last_name, **extra_fields)
 
-    def create_superuser(self, email, password=None, **extra_fields):
+    def create_superuser(self, password, email, first_name, last_name, **extra_fields):
         """Creates and returns a new superuser using an email address"""
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
@@ -46,7 +46,7 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self._create_user(email, password, **extra_fields)
+        return self._create_user(email, password, first_name, last_name, **extra_fields)
 
     def get_by_natural_key(self, email_):
         return self.get(email = email_)
@@ -54,6 +54,10 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     """ Custom user model """
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name = 'Пользователи'
+    
     def user_directory_path(instance, filename):
         # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
         return f'user_{instance.user.id}/{filename}'
@@ -63,6 +67,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
                             max_length=255,
                             unique=True,
                             help_text="Нампример: name@hosting.com")
+    #password =      models.CharField(
+    #                        _('password'),
+    #                        max_length=255,
+    #                        help_text='Пароль')
     first_name =    models.CharField(
                             _('first name'), 
                             max_length=150,

@@ -23,7 +23,7 @@ class SignUpForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['email', 'first_name', 'last_name', 'password']
+        fields = ['email', 'password', 'first_name', 'last_name', ]
         widgets = {"email": forms.EmailInput(attrs={"class": "form-control"})}
 
     def clean_password2(self):
@@ -45,7 +45,7 @@ class CustomUserChangeForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'first_name', 'last_name', 'password', 'is_active', 'is_superuser')
+        fields = ('email', 'password', 'first_name', 'last_name', 'is_active', 'is_superuser')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.

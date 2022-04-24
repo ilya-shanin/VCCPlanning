@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'V3C.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'v3c_events',
+        'NAME': 'v3c_db',
         'USER': 'admin',
         'PASSWORD': '1Qazxsw23edC',
         'HOST': '127.0.0.1',

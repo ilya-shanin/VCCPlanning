@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 class EventAbstract(models.Model):
     #day = models.DateField(verbose_name='Дата', 
@@ -14,7 +15,7 @@ class EventAbstract(models.Model):
                              max_length=1000,
                              blank=True)
 
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(_("Active"), default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

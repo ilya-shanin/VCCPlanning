@@ -8,7 +8,7 @@ from accounts.forms import SignInForm
 class SignInView(View):
     """ User registration view """
 
-    template_name = "accounts/sign_in.html"
+    template_name = "sign_in.html"
     form_class = SignInForm
 
     def get(self, request, *args, **kwargs):

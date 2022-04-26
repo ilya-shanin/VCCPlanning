@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from accounts.models import CustomUser
+from accounts.models import User
 
 
 class SignInForm(forms.Form):
@@ -22,9 +22,10 @@ class SignUpForm(forms.ModelForm):
             validators=[validate_password])
 
     class Meta:
-        model = CustomUser
-        fields = ['email', 'password', 'first_name', 'last_name', ]
-        widgets = {"email": forms.EmailInput(attrs={"class": "form-control"})}
+        model = User
+        fields = ['email', 'password', 'first_name', 'last_name']
+        widgets = {"email": forms.EmailInput(attrs={"class": "form-control"}),
+                   "password": forms.PasswordInput(attrs={"class": "form-control"})}
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -40,12 +41,12 @@ class SignUpForm(forms.ModelForm):
             user.save()
         return user
 
-class CustomUserChangeForm(forms.ModelForm):
+class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = CustomUser
-        fields = ('email', 'password', 'first_name', 'last_name', 'is_active', 'is_superuser')
+        model = User
+        fields = ('email', 'password', 'first_name', 'last_name', 'image', 'job', 'phonenumber', 'is_active', 'is_superuser')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.

@@ -16,7 +16,8 @@ from pathlib import Path, sys
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ADDED DIRS PATH 
-TEMPLATES_DIR = BASE_DIR.joinpath('templates')
+TEMPLATES_DIR = 'templates'
+#TEMPLATES_DIR = BASE_DIR.joinpath('templates')
 STATIC_DIR = BASE_DIR.joinpath('static')
 
 # Quick-start development settings - unsuitable for production
@@ -137,4 +138,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ADDITIONALS
 LOGIN_REDIRECT_URL = '/'
-AUTH_USER_MODEL = "accounts.CustomUser"
+AUTH_USER_MODEL = "accounts.User"

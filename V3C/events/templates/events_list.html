@@ -1,0 +1,13 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+<div class = events-wrapper>    
+    <div class = 'events_list'>
+        <h3>Всего конференций: {{conf_count}}</h3>
+        <ul>
+            {% for conf in conferences %}
+            <li>{{conf.name}}</li>
+            {% endfor %}
+        </ul>    
+    </div>
+</div>
+{% endblock %}

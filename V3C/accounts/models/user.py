@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 
-class CustomUserManager(BaseUserManager):
-    """ User manager """
+class UserManager(BaseUserManager):
+    """ Custom User manager """
 
     def _create_user(self, email, password, first_name, last_name, **extra_fields):
         """Creates and returns a new user using an email address"""
@@ -20,13 +20,13 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)  # safe for multiple databases
         return user
 
-    def create_user(self, password, email, first_name, last_name, **extra_fields):
+    def create_user(self, email, first_name, last_name, password = None, **extra_fields):
         """Creates and returns a new user using an email address"""
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, password, first_name, last_name, **extra_fields)
 
-    def create_staffuser(self, password, email, first_name, last_name, **extra_fields):
+    def create_staffuser(self, email, first_name, last_name, password = None, **extra_fields):
         """Creates and returns a new staffuser using an email address"""
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", False)
@@ -36,7 +36,7 @@ class CustomUserManager(BaseUserManager):
         
         return self._create_user(email, password, first_name, last_name, **extra_fields)
 
-    def create_superuser(self, password, email, first_name, last_name, **extra_fields):
+    def create_superuser(self, email, first_name, last_name, password = None, **extra_fields):
         """Creates and returns a new superuser using an email address"""
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
@@ -48,15 +48,12 @@ class CustomUserManager(BaseUserManager):
 
         return self._create_user(email, password, first_name, last_name, **extra_fields)
 
-    def get_by_natural_key(self, email_):
-        return self.get(email = email_)
 
-
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin):
     """ Custom user model """
     class Meta:
         verbose_name = 'Пользователь'
-        verbose_name = 'Пользователи'
+        verbose_name_plural = 'Пользователи'
     
     def user_directory_path(instance, filename):
         # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
@@ -65,7 +62,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email =         models.EmailField(
                             _("Email Address"),
                             max_length=255,
-                            unique=True,
+                            unique = True,
                             help_text="Нампример: name@hosting.com")
     #password =      models.CharField(
     #                        _('password'),
@@ -74,11 +71,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name =    models.CharField(
                             _('first name'), 
                             max_length=150,
-                            help_text="Ваше имя")
+                            help_text="Имя пользователя")
     last_name =     models.CharField(
                             _('last name'), 
                             max_length=150,
-                            help_text="Ваша фамилия")
+                            help_text="Фамилия пользователя")
     image =         models.ImageField(upload_to = user_directory_path,
                                       blank = True)
     job =           models.CharField(
@@ -88,26 +85,25 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     phonenumber =   models.CharField(
                             max_length = 15,
                             verbose_name = 'Номер телефона',
-                            blank = True)
+                            blank = True,
+                            null = True,
+                            unique = True)
 
-    is_staff =      models.BooleanField(_("Staff status"), default=False)
-    is_active =     models.BooleanField(_("Active"), default=True)
-    date_joined =   models.DateTimeField(_("Date Joined"), auto_now_add=True)
-    last_updated =  models.DateTimeField(_("Last Updated"), auto_now=True)
+    is_staff =      models.BooleanField(_("Staff status"), default = False)
+    is_active =     models.BooleanField(_("Active"), default = True)
+    date_joined =   models.DateTimeField(_("Date Joined"), auto_now_add = True)
+    last_updated =  models.DateTimeField(_("Last Updated"), auto_now = True)
 
-    objects = CustomUserManager()
+    objects = UserManager()
 
-    REQUIRED_FIELDS = ['password', 'first_name', 'last_name']
+    REQUIRED_FIELDS = ['first_name', 'last_name']
     USERNAME_FIELD = "email"
 
     def __str__(self):
         return self.email
 
     def get_short_name(self):
-        return self.email
-
-    def natural_key(self):
-        return self.email
+        return self.first_name
 
     def get_absolute_url(self):
         return reverse('users:profile', kwargs={'user': self.email})

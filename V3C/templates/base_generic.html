@@ -19,9 +19,9 @@
         {% block navbar-top %}
             <!-- navbar here -->
             <ul class = "navbar-top">
-                <a href='#'></a><li>Главная</li></a>
-                <a href="{% url 'events-list' %}"><li>Конференции</li></a>
-                <a href="{% url 'admin' %}"><li>Админ-панель</li></a>
+                <a href="{% url 'dashboard' %}"><li>Главная</li></a>
+                <a href="{% url 'events:events-list' %}"><li>Конференции</li></a>
+                <a href="{% url 'admin:index' %}"><li>Админ-панель</li></a>
             </ul>
         {% endblock %}
         {% block sidebar %}
@@ -30,7 +30,7 @@
         {% endblock %}
         {% block content %}
             <!-- default context text here -->
-            <h2>This is default context text</h2>
+            <h2>Base page</h2>
         {% endblock %}
         </div>
     </body>

@@ -1,5 +1,9 @@
 from django.db import models
 from events.models import EventAbstract
+import datetime
+
+class ConferenceManager(models.Manager):
+    pass
 
 class Conference(EventAbstract):
     name = models.CharField(verbose_name='Конференция', 

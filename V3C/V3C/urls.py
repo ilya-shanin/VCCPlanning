@@ -16,11 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from accounts.views.sign_in import SignInView
+from V3C.views import DashboardView
 
 urlpatterns = [
-    path('signin', SignInView.as_view(), name = 'sign_in'),
     path('admin/', admin.site.urls, name = 'admin'),
-    path('accounts/', include('accounts.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('events/', include('events.urls')),
+]
+#urlpatterns += [path('accounts/', include('django.contrib.auth.urls')),]
+urlpatterns += [
+    path('', DashboardView.as_view(), name = 'dashboard'),
+    path('accounts/', include('accounts.urls', namespace = 'accounnts')),
+    path('events/', include('events.urls', namespace = 'events')),
 ]

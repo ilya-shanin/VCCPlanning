@@ -22,8 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls, name = 'admin'),
 ]
 #urlpatterns += [path('accounts/', include('django.contrib.auth.urls')),]
-urlpatterns += [
-    path('', DashboardView.as_view(), name = 'dashboard'),
-    path('accounts/', include('accounts.urls', namespace = 'accounnts')),
-    path('events/', include('events.urls', namespace = 'events')),
-]
+#urlpatterns += [
+#    path('', DashboardView.as_view(), name = 'dashboard'),
+#    path('accounts/', include('accounts.urls', namespace = 'accounnts')),
+#    path('events/', include('events.urls', namespace = 'events')),
+#]

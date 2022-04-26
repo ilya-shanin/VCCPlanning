@@ -81,17 +81,23 @@ WSGI_APPLICATION = 'V3C.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'v3c_db',
+#        'USER': 'admin',
+#        'PASSWORD': '1Qazxsw23edC',
+#        'HOST': '127.0.0.1',
+#        'PORT': '5432'
+#    }
+#}
+DB = BASE_DIR.joinpath('v3c_db.sqllite3')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'v3c_db',
-        'USER': 'admin',
-        'PASSWORD': '1Qazxsw23edC',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': DB,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

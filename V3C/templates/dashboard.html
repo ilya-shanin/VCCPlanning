@@ -1,11 +1,17 @@
 {% extends 'base_generic.html' %}
 {% block content %}
-<div class = dash-content-wrapper>    
-    <div class = 'dash_events_list'>
+<div class = "dash-content-wrapper">    
+    <div class = "dash_events_list">
         <h3>Всего конференций {{user}}: {{total_count}}</h3>
-        <ul>
+        <ul class = "list-group">
             {% for conf in now_running %}
-            <li>{{conf.event.name}} - {{conf.event.start_time}}</li>
+            <li class = "list-group-item d-flex justify-content-between align-items-start">
+                <div class = "ms-2 me-auto">
+                    <div class = "fw-bold">{{conf.event.name}}</div>
+                    {{conf.event.notes}}
+                </div>
+                 <span class = "badge bg-primary rounded-pill">{{conf.event.start_time}}</span>
+            </li>
             {% endfor %}
         </ul>    
     </div>

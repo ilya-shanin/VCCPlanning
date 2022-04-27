@@ -1,11 +1,17 @@
 {% extends 'base_generic.html' %}
 {% block content %}
-<div class = events-wrapper>    
-    <div class = 'events_list'>
-        <h3>Всего конференций: {{conf_count}}</h3>
-        <ul>
+<div class = "events-wrapper">    
+    <div class = "events-list">
+        <h3>Всего конференций: {{confs_count}}</h3>
+        <ul class = "list-group">
             {% for conf in conferences %}
-            <li>{{conf.name}}</li>
+            <li class = "list-group-item d-flex justify-content-between align-items-start">
+                <div class = "ms-2 me-auto">
+                    <div class = "fw-bold">{{conf.name}}</div>
+                    {{conf.notes}}
+                </div>
+                 <span class = "badge bg-primary rounded-pill">{{conf.start_time}}</span>
+            </li>
             {% endfor %}
         </ul>    
     </div>

@@ -17,8 +17,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ADDED DIRS PATH 
 TEMPLATES_DIR = 'templates'
+STATIC_DIR = 'static'
 #TEMPLATES_DIR = BASE_DIR.joinpath('templates')
-STATIC_DIR = BASE_DIR.joinpath('static')
+#STATIC_DIR = BASE_DIR.joinpath('static')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -145,3 +146,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ADDITIONALS
 LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = "accounts.User"
+
+MEDIA_ROOT = BASE_DIR.joinpath('media')
+MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = [STATIC_DIR]

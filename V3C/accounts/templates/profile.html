@@ -1,0 +1,64 @@
+{% extends 'base_generic.html' %}
+{% block title %}<title>Профиль | {{user_data.email}}</title>{% endblock %}
+{% block content %}
+{% load static %}
+<div class = "container-fluid">
+    <h2>Профиль пользователя {{user_data.email}}</h2>
+    <div class = "profile-data-header">
+        <div class = "row">
+            <div class = "col-md-3">
+
+            </div>
+            <div class = "col-md-9">
+                <h4>Персональная информация</h4>
+            </div>
+        </div>
+    </div>
+    <div class = "row profile-data">
+        <div class = "col-md-3 text-center profile-img">
+            {% if user_data.image %}
+            <img src="{{user_data.image.url}}" class="rounded img-thumbnail" alt="{{user_data.first_name}}">
+            {% else %}
+            <img src="{% static 'accounts/std/nophoto400.jpg' %}" class="rounded img-thumbnail" alt="{{user_data.first_name}}">
+            {% endif %}
+            <a href="#" class = "w-100 btn btn-md btn-outline-secondary mt-4 mb-4 overflow-hidden" role="button">Редактировать</a>
+        </div>
+        <div class = "col-md-9">
+            <div class="list-group list-group-flush">
+                <div class="list-group-item">
+                    <h5>Имя</h5>
+                    <p>{{user_data.first_name}}</p>
+                </div>
+                <div class="list-group-item">
+                    <h5>Фамилия</h5>
+                    <p>{{user_data.last_name}}</p>
+                </div>
+                <div class="list-group-item">
+                    <h5>E-Mail</h5>
+                    <p>{{user_data.email}}</p>
+                </div>
+                <div class="list-group-item">
+                    <h5>Должность</h5>
+                    <p>{% if user_data.job %}{{user_data.job}}{% else %}Не указана{% endif %}</p>
+                </div>
+                <div class="list-group-item">
+                    <h5>Номер телефона</h5>
+                    <p>{% if user_data.phonenumber %}{{user_data.phonenumber}}{% else %}Не указан{% endif %}</p>
+                </div>
+            </div>
+            <div class="list-group list-group-flush mt-4">
+                <div class="list-group-item">
+                    <h5>Зарегистрирован</h5>
+                    <p>{{user_data.date_joined}}</p>
+                </div>
+                {% if user_data.updated_at %}
+                <div class="list-group-item">
+                    <h5>Последнее изменение</h5>
+                    <p>{{user_data.updated_at}}</p>
+                </div>
+                {% endif %} 
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

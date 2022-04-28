@@ -10,10 +10,17 @@ class SignInForm(forms.Form):
     email = forms.EmailField(label = "Электронная почта",
                             widget=forms.EmailInput(attrs={"class": "form-control"}))
     password = forms.CharField(label = "Пароль",
-                                widget = forms.PasswordInput(attrs={"class": "form-control"}))
+                            widget = forms.PasswordInput(attrs={"class": "form-control"}))
 
 
 class SignUpForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email', 'first_name', 'last_name']
+        widgets = {"email": forms.EmailInput(attrs={"class": "form-control"}),
+                   "first_name": forms.TextInput(attrs={"class": "form-control"}),
+                   "last_name": forms.TextInput(attrs={"class": "form-control"})}
+
     password1 = forms.CharField(
             label="Пароль",
             widget=forms.PasswordInput(attrs={"class": "form-control"}),
@@ -22,12 +29,6 @@ class SignUpForm(forms.ModelForm):
             label="Подтвердите пароль",
             widget=forms.PasswordInput(attrs={"class": "form-control"}),
             validators=[validate_password])
-
-    class Meta:
-        model = User
-        fields = ['email', 'password', 'first_name', 'last_name']
-        widgets = {"email": forms.EmailInput(attrs={"class": "form-control"}),
-                   "password": forms.PasswordInput(attrs={"class": "form-control"})}
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -48,7 +49,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'first_name', 'last_name', 'image', 'job', 'phonenumber', 'is_active', 'is_superuser')
+        fields = ('email', 'first_name', 'last_name', 'image', 'job', 'phonenumber', 'is_active', 'is_superuser')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.

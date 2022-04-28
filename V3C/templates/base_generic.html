@@ -14,6 +14,7 @@
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/styles.css' %}">
         <link rel="stylesheet" href="{% static 'css/signin.css' %}">
+        <link rel="stylesheet" href="{% static 'css/signup.css' %}">
     </head>
     <body>
         {% block sidebar %}
@@ -59,29 +60,12 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                                    <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Products</span> </a>
-                                    <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
-                                    <li class="w-100">
-                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 3</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 4</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
                                 <a href="#" class="nav-link px-0 align-middle">
                                     <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Customers</span> </a>
                             </li>
                         </ul>
                         <hr>
+                        {% if user.is_authenticated %}
                         <div class="dropdown pb-4">
                             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="{% if user.image %}{{user.image}}{% else %}{% static 'accounts/std/person-circle.svg' %}{% endif %}" alt="hugenerd" width="30" height="30" class="rounded-circle">
@@ -89,55 +73,19 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                                 <li><a class="dropdown-item" href="#">Настройки</a></li>
-                                <li><a class="dropdown-item" href="#">Профиль</a></li>
+                                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Профиль</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li><a class="dropdown-item" href="{% url 'accounts:signout' %}">Выйти</a></li>
                             </ul>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col py-3">
                     {% block navbar-top %}
-                        <!-- navbar here -->
-                    <div class = "container-fluid">
-                        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                            <div class="container-fluid">
-                            <a class="navbar-brand" href="#">TO MAIN SITE</a>
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Главная</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'events:events-list' %}">Конференции</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {% if not user.is_staff %} disabled {% endif %}" href="{% url 'admin:index' %}">Администрирование</a>
-                                </li>
-                                </ul>
-                                <form class="d-flex">
-                                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Поиск</button>
-                                </form>
-                            </div>
-                            </div>
-                        </nav>
+                        {% include 'navbar-top.html' %}
                     {% endblock %}
                     {% block content %}
                     <!-- default context text here -->

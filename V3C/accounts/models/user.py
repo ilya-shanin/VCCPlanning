@@ -48,7 +48,6 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, first_name, last_name, **extra_fields)
 
-
 class User(AbstractBaseUser, PermissionsMixin):
     """ Custom user model """
     class Meta:
@@ -57,7 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def user_directory_path(instance, filename):
         # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
-        return f'user_{instance.user.id}/{filename}'
+        return f'user_{instance.id}/{filename}'
 
     email =         models.EmailField(
                             _("Email Address"),

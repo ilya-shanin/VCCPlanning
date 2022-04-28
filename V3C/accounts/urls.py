@@ -7,4 +7,7 @@ app_name = "accounts"
 urlpatterns = [
     path("signup/", views.SignUpView.as_view(), name="signup"),
     path("signin/", views.SignInView.as_view(), name="signin"),
-    path("signout/", views.signout, name="signout"),]
+    path("signout/", views.signout, name="signout"),
+]
+#urlpatterns += [path(r'^profile/(?P<username>[\w.@+-]+)/$', views.ProfileView.as_view(), name='profile'),]
+urlpatterns += [path('profile', views.ProfileView.as_view(), name='profile'),]

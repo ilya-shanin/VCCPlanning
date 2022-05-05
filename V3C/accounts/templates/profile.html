@@ -2,8 +2,11 @@
 {% block title %}<title>Профиль | {{user_data.email}}</title>{% endblock %}
 {% block content %}
 {% load static %}
-<div class = "container-fluid">
-    <h2>Профиль пользователя {{user_data.email}}</h2>
+<div class = "container-fluid mt-4">
+    <h3>Профиль пользователя {{user_data.email}}</h3>
+    {% if not user_data.is_active %}
+        <div class="alert alert-warning">Ваш аккаунт не активирован</div>
+    {% endif %}
     <div class = "profile-data-header">
         <div class = "row">
             <div class = "col-md-3">
@@ -21,10 +24,13 @@
             {% else %}
             <img src="{% static 'accounts/std/nophoto400.jpg' %}" class="rounded img-thumbnail" alt="{{user_data.first_name}}">
             {% endif %}
-            <a href="#" class = "w-100 btn btn-md btn-outline-secondary mt-4 mb-4 overflow-hidden" role="button">Редактировать</a>
+            <a href="{% url 'accounts:edit-profile' user_data.id %}" class = "w-100 btn btn-md btn-outline-primary mt-4 mb-2 text-truncate" role="button">Редактировать профиль</a>
+            <a href="{% url 'accounts:change-passw' user_data.id %}" class = "w-100 btn btn-md btn-outline-primary mb-2 text-truncate role="button">Сменить пароль</a>
+            <hr>
+            <a href="{% url 'accounts:delete-user' user_data.id %}" class = "w-100 btn btn-md btn-danger mt-2 mb-4 overflow-hidden" role="button">Удалить мой аккаунт</a>
         </div>
         <div class = "col-md-9">
-            <div class="list-group list-group-flush">
+            <div class="list-group list-group-flush text-truncate">
                 <div class="list-group-item">
                     <h5>Имя</h5>
                     <p>{{user_data.first_name}}</p>

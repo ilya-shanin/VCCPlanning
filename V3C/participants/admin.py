@@ -5,7 +5,7 @@ class RolesAdmin(admin.ModelAdmin):
     list_display = ['role']
 
 class PartAdmin(admin.ModelAdmin):
-    list_display = ['event', 'user', 'role']
+    list_display = ['user', 'event', 'role']
 
 admin.site.register(Participant, PartAdmin)
 admin.site.register(ParticipantRole, RolesAdmin)

@@ -1,0 +1,39 @@
+{% extends 'base_generic.html' %}
+<title>Удаление аккаунта</title>
+{% block content %}
+<div class = "container justify-content-center">
+    <div class="card edit-profile-card mt-4">
+        <div class="card-header">
+        Удаление аккаунта
+        </div>
+        <div class="card-body">
+            <form method="post">{% csrf_token %}
+                {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+                {% endfor %}
+                <h1 class="h5 mb-3 fw-normal">Введите текущий пароль для подтверждения</h1>
+                {% for field in form %}
+                <div class = "form-group">
+                    <p>
+                        {{ field.label_tag }}<br>
+                        {{ field }}
+                        {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                        {% endfor %}
+                    </p>
+                </div>
+                {% endfor %}
+                <input type="submit" role="button" class="btn btn-danger" value="Удалить мой аккаунт">
+                <button name="action-goback" class="btn btn-outline-secondary" onclick="window.history.go(-1)">Назад</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

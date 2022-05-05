@@ -10,9 +10,15 @@
       <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
     </svg>
     <h1 class="h5 mb-3 fw-normal">Пожалуйста, авторизуйтесь в системе</h1>
+
     {% if form.non_field_errors %}
-    <div class="alert alert-danger" role="alert">{{form.non_field_errors.value}}</div>
+    {% for error in form.non_field_errors %}
+    <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
     {% endif %}
+
     {% for field in form %}
       <div class = "form-floating">
         <p>
@@ -21,16 +27,21 @@
           {% if field.help_text %}
             <small class="form-text text-muted">{{ field.help_text }}</small>
           {% endif %}
+
           {% for error in field.errors %}
-            <div class="alert">{{ error.value }}</div>
+          <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+          </div>
           {% endfor %}
         </p>
       </div>
     {% endfor %}
-    <div class="w-100 btn-group" role="group">
+
+    <div class="w-100 btn-group mb-2" role="group">
       <button type="submit" class = "btn btn-md btn-primary">Войти</button>
       <a href="{% url 'accounts:signup' %}" class = "btn btn-md btn-outline-secondary" role="button">Регистрация</a>
     </div>
+    <a href="{% url 'accounts:reset-password' %}" class="link-primary"><i>Забыли пароль?</i></a>
   </form>
 </main>
 

@@ -2,6 +2,9 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.core.files.images import get_image_dimensions
+from django.urls import reverse_lazy
+from PIL import Image
 
 from accounts.models import User
 
@@ -56,3 +59,48 @@ class UserChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'image', 'job', 'phonenumber']
+        widgets = {"first_name": forms.TextInput(attrs={"class": "form-control"}),
+                    "last_name": forms.TextInput(attrs={"class": "form-control"}),
+                    "image": forms.FileInput(attrs={"class": "form-control-file"}),
+                    "job": forms.TextInput(attrs={"class": "form-control"}),
+                    "phonenumber": forms.TextInput(attrs={"class": "form-control phone-field", "placeholder": "+7(000)000-00-00"})}
+
+    def clean_image(self):
+        image = self.cleaned_data['image']
+        try:
+            #validate dimensions
+            max_width = max_height = 400
+            if image.width > max_width or image.height > max_height:
+                img = Image.open(image)
+                size = (max_width, max_height)
+                image = img.thumbnail(size)
+
+            #validate content type
+            main, sub = image.content_type.split('/')
+            if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'png']):
+                raise forms.ValidationError('Пожайлуйста используйте файл формата jpeg или png')
+
+            #validate file size
+            if image._size > (2 * 1024 * 1024):
+                raise forms.ValidationError('Размер картинки не должен превышать 2мБ')
+
+        except AttributeError:
+            """
+            Handles case when we are updating the user profile
+            and do not supply a new avatar
+            """
+
+        return image
+
+class DeleteUserForm(forms.ModelForm):
+    class Meta: 
+        model = User
+        fields = ['password']
+    
+    password = forms.CharField(label = "Пароль",
+                            widget = forms.PasswordInput(attrs={"class": "form-control"}))

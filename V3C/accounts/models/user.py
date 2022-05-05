@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import RegexValidator
 
 class UserManager(BaseUserManager):
     """ Custom User manager """
@@ -55,8 +56,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'Пользователи'
     
     def user_directory_path(instance, filename):
-        # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
-        return f'user_{instance.id}/{filename}'
+        # file will be uploaded to MEDIA_ROOT /accounts/user_<id>/<filename>
+        return f'accounts/user_{instance.id}/{filename}'
+
+    phone_regex = RegexValidator(regex=r'^\+7\(\d{3,4}\)\d{3}(?:-\d{2}){2}$', message="Номер телефона ожидается в формате +7(000)000-00-00")
 
     email =         models.EmailField(
                             _("Email Address"),
@@ -69,21 +72,23 @@ class User(AbstractBaseUser, PermissionsMixin):
     #                        help_text='Пароль')
     first_name =    models.CharField(
                             _('first name'), 
-                            max_length=150,
-                            help_text="Имя пользователя")
+                            max_length=150)
     last_name =     models.CharField(
                             _('last name'), 
-                            max_length=150,
-                            help_text="Фамилия пользователя")
+                            max_length=150)
     image =         models.ImageField(upload_to = user_directory_path,
-                                      blank = True)
+                                      default = "std/nophoto400.jpg",
+                                      blank = True,
+                                      verbose_name="Изображение пользователя")
     job =           models.CharField(
                             max_length=255,
                             verbose_name = 'Должность',
                             blank = True)
     phonenumber =   models.CharField(
-                            max_length = 15,
+                            validators=[phone_regex],
+                            max_length = 17,
                             verbose_name = 'Номер телефона',
+                            help_text='+7(000)000-00-00 или +7(0000)000-00-00',
                             blank = True,
                             null = True,
                             unique = True)
@@ -105,4 +110,5 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
     def get_absolute_url(self):
-        return reverse('users:profile', kwargs={'user': self.email})
+        #return reverse('accounts:profile', kwargs={'user': self.id}) #ссылка на конкретный профиль пока не требуется
+        return reverse('accounts:profile')

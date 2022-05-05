@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from V3C.views import DashboardView
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls, name = 'admin'),
@@ -26,6 +27,5 @@ urlpatterns += [
     path('', DashboardView.as_view(), name = 'dashboard'),
     path('accounts/', include('accounts.urls', namespace = 'accounnts')),
     path('events/', include('events.urls', namespace = 'events')),
-]
-#urlpatterns += [static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

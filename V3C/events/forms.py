@@ -8,12 +8,12 @@ class EventCreationForm(forms.Form):
         model = Conference
         fields = ['name', 'start_time', 'end_time', 'notes', 'con_reference', 'con_pass', 'is_active']
 
-    def clean_end_time(self):
-        start_time = self.cleaned_data.get('start_time')
-        end_time = self.cleaned_data.get('end_time')
+    def clean(self):
+        cleaned_data = super().clean()
+        start_time = cleaned_data.get('start_time')
+        end_time = cleaned_data.get('end_time')
         if end_time <= start_time:
             raise forms.ValidationError("Дата окончания события должна быть позже даты его начала")
-        return super(EventCreationForm, self).clean()
 
     def save(self, commit=True):
         event = super().save(commit=False)
@@ -26,9 +26,9 @@ class EventChangeForm(forms.ModelForm):
         model = Conference
         fields = ['name', 'start_time', 'end_time', 'notes', 'con_reference', 'con_pass', 'is_active']
 
-        def clean_end_time(self):
-            start_time = self.cleaned_data.get('start_time')
-            end_time = self.cleaned_data.get('end_time')
-            if end_time <= start_time:
-                raise forms.ValidationError("Дата окончания события должна быть позже даты его начала")
-            return super(EventCreationForm, self).clean()
+    def clean(self):
+        cleaned_data = super().clean()
+        start_time = cleaned_data.get('start_time')
+        end_time = cleaned_data.get('end_time')
+        if end_time <= start_time:
+            raise forms.ValidationError("Дата окончания события должна быть позже даты его начала")

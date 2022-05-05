@@ -1,7 +1,10 @@
 {% extends 'base_generic.html' %}
-{% block title %}<title>Профиль | {{user_data.email}}</title>{% endblock %}
-{% block content %}
 {% load static %}
+{% block title %}<title>Профиль | {{user_data.email}}</title>{% endblock title %}
+{% block extrafiles %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock extrafiles %}
+{% block content %}
 <div class = "container-fluid mt-4">
     <h3>Профиль пользователя {{user_data.email}}</h3>
     {% if not user_data.is_active %}
@@ -67,4 +70,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
+{% endblock content %}

@@ -22,7 +22,7 @@ class ProfileView(LoginRequiredMixin, View):
             raise Http404('Пользователь не найден')
 
         context = {
-            "user_data": user_data
+            'user_data': user_data
         }
         return render(request, self.template_name, context)
 
@@ -30,7 +30,7 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = ProfileEditForm
     succes_url = 'accounts:profile'
-    template_name = "edit_profile.html"
+    template_name = 'edit_profile.html'
 
     def get_object(self, queryset=None): 
         return get_object_or_404(User, id=self.request.user.id)
@@ -43,20 +43,20 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
         return super(EditProfileView, self).form_valid(form)
     
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
-    success_message = "Пароль успешно изменен"
-    success_url = reverse_lazy('accounts:profile')
+    success_message = 'Пароль успешно изменен'
     template_name = 'change_password.html'
+    success_url = reverse_lazy('accounts:profile')
 
 class DeleteProfileView(DeleteView):
-    success_url = reverse_lazy('accounts:signin')
     template_name = 'profile_delete.html'
     form_class = DeleteUserForm
+    success_url = reverse_lazy('accounts:signin')
 
     def get_object(self, queryset=None): 
         return get_object_or_404(User, id=self.request.user.id)
 
     def form_valid(self, form):
-        #save cleaned post data
+        #delete validation with password
         clean = form.cleaned_data
         current_password = self.request.user.password 
         if check_password(clean['password'] , current_password):

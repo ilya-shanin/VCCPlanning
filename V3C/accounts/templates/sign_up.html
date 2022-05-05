@@ -1,7 +1,11 @@
 {% extends 'base_generic.html' %}
-{% block title %}<title>Регистрация</title>{% endblock %}
+{% load static %}
+{% block title %}<title>Регистрация</title>{% endblock title %}
+{% block extrafiles %}
+<link rel="stylesheet" href="{% static 'css/signin.css' %}">
+{% endblock extrafiles %}
 {% block sidebar %}
-{% block navbar %}{% endblock %}
+{% block navbar-top %}{% endblock navbar-top %}
 {% block content %}
 <main class="form-signup text-center">
   <form method="post">
@@ -40,5 +44,5 @@
     </div>
   </form>
 </main>
-{% endblock %}
-{% endblock %}
+{% endblock content %}
+{% endblock sidebar %}

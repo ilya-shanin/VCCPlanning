@@ -18,15 +18,18 @@ class ParticipantManager(models.Manager):
 class Participant(models.Model):
 
     
-    event = models.ForeignKey(Conference, 
+    event = models.ForeignKey(
+                            Conference, 
                             on_delete=models.CASCADE, 
                             related_name='rel_conf',
                             verbose_name='Событие')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, 
+    user =  models.ForeignKey(
+                            settings.AUTH_USER_MODEL, 
                             on_delete=models.CASCADE, 
                             related_name='rel_users',
                             verbose_name='Пользователь')
-    role = models.ForeignKey(ParticipantRole, 
+    role =  models.ForeignKey(
+                            ParticipantRole, 
                             on_delete=models.PROTECT, 
                             related_name='rel_roles',
                             verbose_name='Роль участника')
@@ -34,8 +37,8 @@ class Participant(models.Model):
     objects = ParticipantManager()
 
     class Meta:
-        verbose_name = 'Участник'
-        verbose_name_plural = 'Участники'
+        verbose_name =          'Участник'
+        verbose_name_plural =   'Участники'
 
         unique_together = ['user', 'event']
 

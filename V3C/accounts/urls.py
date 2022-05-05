@@ -4,12 +4,12 @@ from django.urls import reverse_lazy
 
 from accounts import views
 
-app_name = "accounts"
+app_name = 'accounts'
 
 urlpatterns = [
-    path("signup/", views.SignUpView.as_view(), name="signup"),
-    path("signin/", views.SignInView.as_view(), name="signin"),
-    path("signout/", views.signout, name="signout"),
+                path('signup/', views.SignUpView.as_view(), name='signup'),
+                path('signin/', views.SignInView.as_view(), name='signin'),
+                path('signout/', views.signout, name='signout'),
 ]
 #urlpatterns += [re_path(r'^profile/(?P<username>[\w.@+-]+)/$', views.ProfileView.as_view(), name='profile'),]
 urlpatterns += [path('profile/', views.ProfileView.as_view(), name='profile'),]

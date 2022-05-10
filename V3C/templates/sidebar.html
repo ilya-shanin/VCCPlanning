@@ -2,40 +2,38 @@
 <div class="l-navbar" id="sidebar">
     <nav class="nav">
         <div> 
-            <a href="#" class="nav_logo"> 
-                <i class='bx bx-layer nav_logo-icon'></i> 
-                <span class="nav_logo-name">BBBootstrap</span> 
-            </a>
+            <div class="nav_logo">
+                <i class='bx bx-right-arrow-alt nav_logo-icon' id="toggle_sidebar"></i>
+                <span class="nav_logo-name">Меню</span> 
+            </div>
             <div class="nav_list"> 
                 <a href="{% url 'dashboard' %}" class="nav_link active"> 
                     <i class='bx bx-grid-alt nav_icon'></i> 
                     <span class="nav_name">Главная</span> 
-                </a> 
+                </a>
+                <a href="{% url 'events:events-list' %}" class="nav_link"> 
+                    <i class='bx bxs-calendar-event nav_icon'></i> 
+                    <span class="nav_name">Все сеансы ВКС</span> 
+                </a>
+                <a href="{% url 'events:event-calendar' %}" class="nav_link"> 
+                    <i class='bx bx-calendar-star'></i> 
+                    <span class="nav_name">Календарь</span> 
+                </a>  
                 <a href="{% url 'accounts:profile' %}" class="nav_link"> 
                     <i class='bx bx-user nav_icon'></i> 
                     <span class="nav_name">Профиль</span> 
-                </a> 
-                <a href="#" class="nav_link"> 
-                    <i class='bx bx-message-square-detail nav_icon'></i> 
-                    <span class="nav_name">Messages</span> 
-                </a> 
-                <a href="#" class="nav_link"> 
-                    <i class='bx bx-bookmark nav_icon'></i> 
-                    <span class="nav_name">Bookmark</span> 
-                </a> 
-                <a href="#" class="nav_link"> 
-                    <i class='bx bx-folder nav_icon'></i> 
-                    <span class="nav_name">Files</span> 
-                </a> 
-                <a href="#" class="nav_link"> 
-                    <i class='bx bx-bar-chart-alt-2 nav_icon'></i> 
-                    <span class="nav_name">Stats</span> 
-                </a> 
+                </a>
+                {% if user.is_staff %}
+                <a href="{% url 'admin:index' %}" class="nav_link"> 
+                    <i class='bx bx-shield-quarter nav_icon'></i> 
+                    <span class="nav_name">Администрирование</span> 
+                </a>
+                {% endif %} 
             </div>
         </div> 
-        <a href="#" class="nav_link"> 
+        <a href="{% url 'accounts:signout' %}" class="nav_link"> 
             <i class='bx bx-log-out nav_icon'></i> 
-            <span class="nav_name">SignOut</span> 
+            <span class="nav_name">Выйти</span> 
         </a>
     </nav>
 </div>

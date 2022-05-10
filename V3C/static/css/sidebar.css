@@ -1,9 +1,11 @@
+/* sidebar styling */
+
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
 :root{--header-height: 3rem;
       --nav-width: 68px;
-      --first-color: #4723D9;
-      --first-color-light: #AFA5D9;
+      --first-color: #2a58d6;
+      --first-color-light: #e4ecf7;
       --white-color: #F7F6FB;
       --body-font: 'Nunito', sans-serif;
       --normal-font-size: 1rem;
@@ -70,8 +72,9 @@ a{text-decoration: none}
                     
 .nav_logo{margin-bottom: 2rem}
 
-.nav_logo-icon{font-size: 1.25rem;
-               color: var(--white-color)}
+.nav_logo-icon{font-size: 1.5rem;
+               color: var(--white-color);
+               cursor: pointer;}
                
 .nav_logo-name{color: var(--white-color);
                font-weight: 700}
@@ -115,7 +118,13 @@ a{text-decoration: none}
     .l-navbar{left: 0;
               padding: 1rem 1rem 0 0}
               
-    .show{width: calc(var(--nav-width) + 156px)}
+    .show{width: calc(var(--nav-width) + 186px)}
     
-    .body-pd{padding-left: calc(var(--nav-width) + 188px)}
+    .body-pd{padding-left: calc(var(--nav-width) + 218px)}
+
+    .htg-sidebar{display: none;}
+}
+
+@media screen and (max-width: 768px){
+    .nav_logo{display: none;}
 }

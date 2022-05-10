@@ -1,6 +1,8 @@
 from django.db import models
+import datetime
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator
+from django.urls import reverse
 
 class EventAbstract(models.Model):
     #day = models.DateField(verbose_name='Дата', 
@@ -25,3 +27,12 @@ class EventAbstract(models.Model):
 
     class Meta:
         abstract = True
+
+    def live(self):
+        now = datetime.datetime.now().timestamp()
+        if self.end_time and self.start_time.timestamp() <= now <= self.end_time.timestamp():
+            return True
+        else: return False
+
+    def get_absolute_url(self):
+        return reverse('events:event-detail', kwargs={'pk': self.pk})

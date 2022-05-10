@@ -5,22 +5,16 @@
 <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock extrafiles %}
 {% block content %}
-<div class = "container-fluid mt-4">
+<div class = "container content">
+
     <h3>Профиль пользователя {{user_data.email}}</h3>
+
     {% if not user_data.is_active %}
         <div class="alert alert-warning">Ваш аккаунт не активирован</div>
     {% endif %}
-    <div class = "profile-data-header">
-        <div class = "row">
-            <div class = "col-md-3">
 
-            </div>
-            <div class = "col-md-9">
-                <h4>Персональная информация</h4>
-            </div>
-        </div>
-    </div>
     <div class = "row profile-data">
+
         <div class = "col-md-3 text-center profile-img">
             {% if user_data.image %}
             <img src="{{user_data.image.url}}" class="rounded img-thumbnail" alt="{{user_data.first_name}}">
@@ -32,7 +26,9 @@
             <hr>
             <a href="{% url 'accounts:delete-user' user_data.id %}" class = "w-100 btn btn-md btn-danger mt-2 mb-4 overflow-hidden" role="button">Удалить мой аккаунт</a>
         </div>
+
         <div class = "col-md-9">
+
             <div class="list-group list-group-flush text-truncate">
                 <div class="list-group-item">
                     <h5>Имя</h5>
@@ -55,6 +51,7 @@
                     <p>{% if user_data.phonenumber %}{{user_data.phonenumber}}{% else %}Не указан{% endif %}</p>
                 </div>
             </div>
+
             <div class="list-group list-group-flush mt-4">
                 <div class="list-group-item">
                     <h5>Зарегистрирован</h5>
@@ -67,7 +64,10 @@
                 </div>
                 {% endif %} 
             </div>
+
         </div>
+
     </div>
+    
 </div>
 {% endblock content %}

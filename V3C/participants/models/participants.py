@@ -15,6 +15,10 @@ class ParticipantManager(models.Manager):
                                             event__start_time__gte = datetime.datetime.now())
         return events
 
+    def get_event_participants(self, event_id):
+        participants = Participant.objects.filter(event__pk = event_id)
+        return participants
+
 class Participant(models.Model):
 
     

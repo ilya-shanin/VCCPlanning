@@ -20,7 +20,7 @@ from V3C.views import DashboardView
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls, name = 'admin'),
+                path('admin/', admin.site.urls, name = 'admin'),
 ]
 urlpatterns += [path('accounts/', include('django.contrib.auth.urls')),]
 urlpatterns += [

@@ -1,13 +1,66 @@
-.navbar-top{
-    list-style: none;
+/* page content styling */
+.content{
+    margin-top: 95px;
 }
 
-.profile-data{
-    margin-top: 15px;
+/* displaying events list */
+.events-list .list-group-item{
+    min-height: 125px;
+    border: none;
+    transition-property: all;
+    transition: all 0.2s;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.events-list .list-group-item .conf_name{
+    font-size: 1.5em;
+}
+.events-list .list-group-flush :hover{
+    transform: scale(1.005);
+}
+.events-list .list-group-flush .list-group-item :hover{
+    transform: none;
 }
 
-.edit-profile-card .btn{
-    margin-bottom: 4px;
-    min-width: 200px;
-    max-width: 700px;
+.hr-custom {
+    margin: 0;
 }
+
+.detail-ref{
+    margin-top: 20px;
+}
+
+.pagination .btn-group{
+    margin-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+/* event-details styles */
+.conf_conn, .conf_info, .conf_partics{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    
+}
+
+.conf_time, .conf_notes{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.record_info{
+    margin-top: 20px; 
+}
+
+.event-detail h3{
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px){
+    .conf_conn, .conf_info, .conf_partics{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+

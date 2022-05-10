@@ -12,8 +12,9 @@ class EventCreationForm(forms.Form):
         cleaned_data = super().clean()
         start_time = cleaned_data.get('start_time')
         end_time = cleaned_data.get('end_time')
-        if end_time <= start_time:
-            raise forms.ValidationError("Дата окончания события должна быть позже даты его начала")
+        if end_time:
+            if end_time <= start_time:
+                raise forms.ValidationError("Дата окончания события должна быть позже даты его начала")
 
     def save(self, commit=True):
         event = super().save(commit=False)
@@ -30,5 +31,6 @@ class EventChangeForm(forms.ModelForm):
         cleaned_data = super().clean()
         start_time = cleaned_data.get('start_time')
         end_time = cleaned_data.get('end_time')
-        if end_time <= start_time:
-            raise forms.ValidationError("Дата окончания события должна быть позже даты его начала")
+        if end_time:
+            if end_time <= start_time:
+                raise forms.ValidationError("Дата окончания события должна быть позже даты его начала")

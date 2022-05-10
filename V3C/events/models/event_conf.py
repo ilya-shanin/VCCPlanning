@@ -1,6 +1,5 @@
 from django.db import models
 from events.models import EventAbstract
-import datetime
 
 class ConferenceManager(models.Manager):
     pass

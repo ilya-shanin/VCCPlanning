@@ -1,13 +1,68 @@
 {% extends 'base_generic.html' %}
-{% block content %}
-<div class = events-wrapper>    
-    <div class = 'events_list'>
-        <h3>Всего конференций: {{conf_count}}</h3>
-        <ul>
+{% block title %}<title>Все события</title>{% endblock %}
+{% block content %}   
+    <div class = "content events-list">
+
+        <h3 class="list-title">Всего видеоконференций: {{confs_count}}</h3>
+
+        <ul class = "list-group-flush">
+            <b class="hr-rainbow"></b>
+            <hr class="hr-custom">
+
             {% for conf in conferences %}
-            <li>{{conf.name}}</li>
+            <li class = "list-group-item align-items-start">
+                <div class="row">
+                    <div class = "col-sm-2">
+
+                        <div class = "c-date">
+                            <div class="fw-bold">
+                                <i class='bx bx-calendar' ></i>{{conf.start_time.date}}
+                                {% if conf.end_time and conf.start_time.date != conf.end_time.date %}
+                                - {{conf.end_time.date}}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class = "c-time">
+                            <p>
+                                <i class='bx bx-time-five'></i>    
+                                {{conf.start_time.time}}
+                                {% if conf.end_time %}
+                                    - {{conf.end_time.time}}
+                                {% endif %}</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-10">
+                        <div class = "conf_name">
+                            {% if conf.live %}
+                            <span class = "badge bg-danger rounded-pill">LIVE</span>
+                            {% endif %}
+                            {{conf.name}}
+                        </div>
+
+                        <div class = "text-muted conf_text">{{conf.notes}}</div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class = "detail-ref">
+                            <a href="{{conf.get_absolute_url}}"><i class='bx bx-link-external' ></i>&nbspПерейти</a>
+                        </div>
+                    </div>
+                </div>
+
+            </li>
+            <b class="hr-rainbow"></b>
+            <hr class="hr-custom">
             {% endfor %}
-        </ul>    
+
+        </ul>
+        {% block pagination %}
+            {% include 'pagination.html' %}
+        {% endblock pagination %}  
     </div>
-</div>
 {% endblock %}

@@ -1,0 +1,73 @@
+.calendar {
+  font-size: 13px;
+  background-color: rgba(223, 223, 223, 0.189);
+  table-layout: fixed;
+  min-width: 500px;
+  width: 80%;
+  border-collapse: collapse;
+  border-radius: 30px;
+  transition-property: all;
+  transition: all 0.4s;
+}
+
+.calendar .date {
+  border-bottom: 2px solid black;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.calendar .day-content{
+  height: 40px;
+}
+.calendar .day-content .badge{
+  padding:8px;
+}
+
+.calendar tr{
+  
+}
+
+.calendar td{
+  text-align: center; 
+  vertical-align: middle;
+  padding: 15px;
+}
+
+.calendar .cal-day{
+  transition-property: all;
+  transition: all 0.4s;
+}
+.calendar .cal-day:hover{
+  background-color: rgb(230, 230, 230);
+  transform: scale(1.055);
+}
+
+.calendar th {
+  color: aliceblue;
+  text-align: center;
+  font-size: 18px;
+  width: 40px;
+  background-color: rgb(39, 39, 128);
+  padding: 5px;
+}
+ 
+.month {
+  font-size: 25px;
+  border-radius: 20px 20px 0 0;
+}
+  
+.date {
+  font-size: 16px;
+}
+  
+ul {
+  height: 100%;
+}
+  
+.left {
+  float: left;
+}
+  
+.right {
+  float: right;
+}

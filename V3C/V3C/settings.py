@@ -10,21 +10,27 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from pathlib import Path, sys
+from pathlib import Path
+import os
+from dotenv import load_dotenv
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+dotevn_path = BASE_DIR.joinpath('.env')
+load_dotenv()  # loads the configs from .env
 
 # ADDED DIRS PATH 
 TEMPLATES_DIR = 'templates'
+STATIC_DIR = 'static'
 #TEMPLATES_DIR = BASE_DIR.joinpath('templates')
-STATIC_DIR = BASE_DIR.joinpath('static')
+#STATIC_DIR = BASE_DIR.joinpath('static')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)8*d$1c2n4bdc6b$j(x1o*5#v%f+hq)2pak3)!4i+cp9a@-pj8'
+SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,17 +87,23 @@ WSGI_APPLICATION = 'V3C.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'v3c_db',
+#        'USER': 'admin',
+#        'PASSWORD': '1Qazxsw23edC',
+#        'HOST': '127.0.0.1',
+#        'PORT': '5432'
+#    }
+#}
+DB = BASE_DIR.joinpath('v3c_db.sqllite3')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'v3c_db',
-        'USER': 'admin',
-        'PASSWORD': '1Qazxsw23edC',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': DB,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -137,5 +149,19 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ADDITIONALS
-LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = reverse_lazy('accounts:signin')
+LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
 AUTH_USER_MODEL = "accounts.User"
+
+MEDIA_ROOT = BASE_DIR.joinpath('media')
+MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = [STATIC_DIR]
+
+# email configs
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = str(os.getenv('EMAIL_USER'))
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASSWORD'))

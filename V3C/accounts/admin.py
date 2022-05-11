@@ -10,20 +10,20 @@ class AccontAdmin(BaseUserAdmin):
     add_form = SignUpForm
 
     list_display = ('email', 
-                'first_name', 
-                'last_name', 
-                'job', 
-                'phonenumber', 
-                'image', 
-                'is_staff', 
-                'is_superuser',
-                'date_joined',
-                'last_updated')
+                    'first_name', 
+                    'last_name', 
+                    'job', 
+                    'phonenumber', 
+                    'image', 
+                    'is_staff', 
+                    'is_superuser',
+                    'date_joined',
+                    'last_updated')
     list_filter = ('is_superuser', 'is_active')
 
     fieldsets = [
                 (None,{'fields': ('email', 'password')}),
-               ('Personal info',{'fields': ('image','first_name', 'last_name', 'job', 'phonenumber')}),
+                ('Personal info',{'fields': ('image','first_name', 'last_name', 'job', 'phonenumber')}),
                 ('Permissions', {'fields': ('is_staff', 'is_superuser')})
     ]    
     add_fieldsets = [

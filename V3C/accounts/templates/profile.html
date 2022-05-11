@@ -1,0 +1,73 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block title %}<title>Профиль | {{user_data.email}}</title>{% endblock title %}
+{% block extrafiles %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock extrafiles %}
+{% block content %}
+<div class = "container content">
+
+    <h3>Профиль пользователя {{user_data.email}}</h3>
+
+    {% if not user_data.is_active %}
+        <div class="alert alert-warning">Ваш аккаунт не активирован</div>
+    {% endif %}
+
+    <div class = "row profile-data">
+
+        <div class = "col-md-3 text-center profile-img">
+            {% if user_data.image %}
+            <img src="{{user_data.image.url}}" class="rounded img-thumbnail" alt="{{user_data.first_name}}">
+            {% else %}
+            <img src="{% static 'accounts/std/nophoto400.jpg' %}" class="rounded img-thumbnail" alt="{{user_data.first_name}}">
+            {% endif %}
+            <a href="{% url 'accounts:edit-profile' user_data.id %}" class = "w-100 btn btn-md btn-outline-primary mt-4 mb-2 text-truncate" role="button">Редактировать профиль</a>
+            <a href="{% url 'accounts:change-passw' user_data.id %}" class = "w-100 btn btn-md btn-outline-primary mb-2 text-truncate role="button">Сменить пароль</a>
+            <hr>
+            <a href="{% url 'accounts:delete-user' user_data.id %}" class = "w-100 btn btn-md btn-danger mt-2 mb-4 overflow-hidden" role="button">Удалить мой аккаунт</a>
+        </div>
+
+        <div class = "col-md-9">
+
+            <div class="list-group list-group-flush text-truncate">
+                <div class="list-group-item">
+                    <h5>Имя</h5>
+                    <p>{{user_data.first_name}}</p>
+                </div>
+                <div class="list-group-item">
+                    <h5>Фамилия</h5>
+                    <p>{{user_data.last_name}}</p>
+                </div>
+                <div class="list-group-item">
+                    <h5>E-Mail</h5>
+                    <p>{{user_data.email}}</p>
+                </div>
+                <div class="list-group-item">
+                    <h5>Должность</h5>
+                    <p>{% if user_data.job %}{{user_data.job}}{% else %}Не указана{% endif %}</p>
+                </div>
+                <div class="list-group-item">
+                    <h5>Номер телефона</h5>
+                    <p>{% if user_data.phonenumber %}{{user_data.phonenumber}}{% else %}Не указан{% endif %}</p>
+                </div>
+            </div>
+
+            <div class="list-group list-group-flush mt-4">
+                <div class="list-group-item">
+                    <h5>Зарегистрирован</h5>
+                    <p>{{user_data.date_joined}}</p>
+                </div>
+                {% if user_data.updated_at %}
+                <div class="list-group-item">
+                    <h5>Последнее изменение</h5>
+                    <p>{{user_data.updated_at}}</p>
+                </div>
+                {% endif %} 
+            </div>
+
+        </div>
+
+    </div>
+    
+</div>
+{% endblock content %}

@@ -1,0 +1,67 @@
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block extrafiles %}
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />
+<link rel="stylesheet" type="text/css" href="{% static 'tui-calendar/examples/css/default.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'tui-calendar/examples/css/icons.css' %}">
+{% endblock extrafiles %}
+{% block title %}<title>Главная</title>{% endblock %}
+{% block content %}
+
+<div class = "content detail">
+    <div id="menu">
+        <span id="menu-navi">
+          <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>
+          <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev">
+            <i class="calendar-icon ic-arrow-line-left" data-action="move-prev"></i>
+          </button>
+          <button type="button" class="btn btn-default btn-sm move-day" data-action="move-next">
+            <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>
+          </button>
+        </span>
+        <span id="renderRange" class="render-range"></span>
+      </div>    
+    <div id="calendar" style="height:800px;"></div>
+</div>
+
+
+<script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+<script src="https://uicdn.toast.com/tui.time-picker/v2.0.3/tui-time-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui.date-picker/v4.0.3/tui-date-picker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
+<script src="{% static 'tui-calendar/dist/tui-calendar.js' %}"></script>
+<script src="{% static 'tui-calendar/examples/js/data/calendars.js' %}"></script>
+<script src="{% static 'tui-calendar/examples/js/data/schedules.js' %}"></script>
+<script>
+    var Calendar = tui.Calendar
+    var calendar = new Calendar('#calendar', {
+    defaultView: 'month',
+    isReadOnly: true,
+    month: {
+        startDayOfWeek: 1
+    },
+    week: {
+        startDayOfWeek: 1
+    },
+  });
+  {% for conf in now_running %}
+  calendar.createSchedules([
+    {
+        id: '{{conf.event.pk}}',
+        calendarId: '1',
+        title: '{{conf.event.name}}',
+        category: 'time',   
+        dueDateClass: '',
+        start: new Date('{{conf.event.start_time.date.year}},{{conf.event.start_time.date.month}},{{conf.event.start_time.date.day}}'),
+        end: new Date('{{conf.event.end_time.date.year}},{{conf.event.end_time.date.month}},{{conf.event.end_time.date.day}}')
+    }
+    ]);
+    {% endfor %}
+    // daily view
+
+</script>
+
+{% endblock %}

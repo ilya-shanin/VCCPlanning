@@ -1,17 +1,52 @@
-<h2>Sign in</h2>
-<form method="post">
-  {% csrf_token %}
-  {% for field in form %}
-    <p>
-      {{ field.label_tag }}<br>
-      {{ field }}
-      {% if field.help_text %}
-        <small style="color: grey">{{ field.help_text }}</small>
-      {% endif %}
-      {% for error in field.errors %}
-        <p style="color: red">{{ error }}</p>
-      {% endfor %}
-    </p>
-  {% endfor %}
-  <button type="submit">Sign in</button>
-</form>
+{% extends 'base_generic.html' %}
+{% load static %}
+{% block title %}<title>Войти в аккаунт</title>{% endblock title %}
+{% block extrafiles %}
+<link rel="stylesheet" href="{% static 'css/signin.css' %}">
+{% endblock extrafiles %}
+{% block navbar-top %}{% endblock navbar-top %}
+{% block sidebar %}{% endblock sidebar %}
+{% block content %}
+<main class="form-signin text-center">
+  <form method="post">
+    {% csrf_token %}
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="mb-4" viewBox="0 0 16 16">
+      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+    </svg>
+    <h1 class="h5 mb-3 fw-normal">Пожалуйста, авторизуйтесь в системе</h1>
+
+    {% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+    <div class="alert alert-danger">
+        <strong>{{ error|escape }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    {% for field in form %}
+      <div class = "form-floating">
+        <p>
+          {{ field.label_tag }}<br>
+          {{ field }}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+
+          {% for error in field.errors %}
+          <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+          </div>
+          {% endfor %}
+        </p>
+      </div>
+    {% endfor %}
+
+    <div class="w-100 btn-group mb-2" role="group">
+      <button type="submit" class = "btn btn-md btn-primary">Войти</button>
+      <a href="{% url 'accounts:signup' %}" class = "btn btn-md btn-outline-secondary" role="button">Регистрация</a>
+    </div>
+    <a href="{% url 'accounts:reset-password' %}" class="link-primary"><i>Забыли пароль?</i></a>
+  </form>
+</main>
+
+{% endblock content %}

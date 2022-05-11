@@ -1,0 +1,72 @@
+{% extends 'base_generic.html' %}
+{% block title %}<title>Все события</title>{% endblock %}
+{% block content %}
+{% load static %}
+<div class="container content event-detail">
+
+    <div class="row">
+        <div class="col-md-6 col-xs-12 conf_info">
+                <div class = "fw-bold conf_name">
+                    <h3>{% if conf.live %}
+                    <span class = "badge bg-danger rounded-pill">LIVE</span>
+                    {% endif %}
+                    {{conf.name}}</h3>
+                </div>
+
+                <div class="conf_time">
+                    <div><span class="fw-bold">Начало: </span>{{conf.start_time}}</div>
+                    {% if conf.end_time %}
+                    <div><span class="fw-bold">Окончание: </span>{{conf.end_time}}</div>
+                    {% endif %}
+                </div>
+
+                <div class="conf_notes">
+                    {% if conf.notes %}
+                    <h5>Повестка:</h5>
+                    <span>
+                        {{conf.notes}}
+                    </span>
+                    {% endif %}
+                </div>
+
+                <div class="text-muted record_info">
+                    <div>Запись создана: {{conf.created_at}}</div>
+                    <div>Отредактировано: {{conf.updated_at}}</div>
+                </div>
+        </div>
+
+        <div class="col-md-6 col-xs-12 conf_partics">
+                <h3>Участники</h3>
+                {% if not part %}
+                <div class="alert alert-warning">
+                    Нет зарегистрированных участников
+                </div>
+                {% endif %}
+                <div class="conf_partics_users">
+                {% for p in part %}
+                    <div class="row my-3">
+                        <div class="col-auto partic_img">
+                            <img width="40px" height="40px" class="rounded-circle mx-auto" src="{% if p.user.image %}{{p.user.image.url}}{% else %}{% static 'accounts/std/nophoto400.jpg' %}{% endif %}">
+                        </div>
+                        <div class="col partic_user">
+                            <div>{{p.user.first_name}}&nbsp{{p.user.last_name}}</div>
+                            <div class="small text-muted">{{p.user.job}}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>  
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-xs-12 conf_conn">
+            <h3>Подключение</h3>
+            <div><span class="fw-bold text-break">Ссылка для подключения: </span>{{conf.con_reference}}</div>
+            <div><span class="fw-bold text-break">Пароль:</span> {{conf.con_pass}}</div>
+
+            <a href="{% url 'events:events-list' %}" class="btn btn-outline-primary mt-4" role="button">Список всех сеансов</a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

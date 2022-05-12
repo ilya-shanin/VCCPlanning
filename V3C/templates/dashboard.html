@@ -13,23 +13,57 @@
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         var today = new Date();
+        var headerStd = {
+                left: '',
+                center: 'title prev,today,next',
+                right: ''
+            };
+        var headerMobile = {
+            left: '',
+            center: 'prev,today,next',
+            right: ''
+        };
+        var footerStd = {
+            center: 'dayGridMonth,timeGridWeek,timeGridDay,list'
+        };
+        var footerMobile = {
+            center: 'timeGridWeek,timeGridDay,list'
+        };
+        function widthCheck() {
+        if (window.innerWidth >= 768 ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
         var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: widthCheck() ? "dayGridMonth" : "list",
             height:"650px",
-            headerToolbar: {
-                left: 'prev,today,next',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,list'
-            },
+            headerToolbar: widthCheck() ? headerStd
+                : headerMobile,
+            footerToolbar: widthCheck() ? footerStd
+                : footerMobile,
             initialDate: today,
             navLinks: true, // can click day/week names to navigate views
-            initialView: 'dayGridMonth',
-            locale: 'ru'
+            locale: 'ru',
+            windowResize: function(view) {
+                if (window.innerWidth >= 768 ) {
+                    calendar.changeView('dayGridMonth');
+                    $('.fc-dayGridMonth-button').show();
+                    $('#fc-dom-1').show();
+                } else {
+                    calendar.changeView('list');
+                    $('.fc-dayGridMonth-button').hide();
+                    $('#fc-dom-1').hide();
+                }
+            },
         });
         {% for conf in now_running %}
         calendar.addEvent(
             {
                 id: '{{conf.event.pk}}',
                 title: '{{conf.event.name}}',
+                url: '{{conf.event.get_absolute_url}}',
                 start: new Date({{conf.event.start_time|date:"U"}}*1000),
                 {% if conf.event.end_time %}
                 end: new Date({{conf.event.end_time|date:"U"}}*1000)
@@ -39,15 +73,25 @@
         {% endfor %}
         
         calendar.render();
+        
+        $('#toggle_sidebar').click(function(){
+            //refresh on toggle
+            setTimeout(()=>calendar.updateSize(),410);
+        });
+        $('#htg-sidebar').click(function(){
+            //refresh on toggle
+            setTimeout(()=>calendar.updateSize(),410);
+        });
     });
     </script>
     <div id="calendar" class="mt-3"></div>
 
-    <div class = "dash_events_list mt-3">
-        <h3 class="list-title">Всего конференций {{user}}: {{total_count}}</h3>
+    <div class = "row dash_events_list mt-3">
+        <div class="col-3-md">
+        {% if total_count > 0 %}
+        <h3 class="list-title">Активные/заверешенные сеансы</h3>
 
         <ul class = "list-group-flush">
-            <b class="hr-rainbow"></b>
             <hr class="hr-custom">
 
             {% for conf in now_running %}
@@ -58,9 +102,6 @@
                         <div class = "c-date">
                             <div class="fw-bold">
                                 <i class='bx bx-calendar' ></i>{{conf.event.start_time.date}}
-                                {% if conf.event.end_time and conf.event.start_time.date != conf.event.end_time.date %}
-                                - {{conf.event.end_time.date}}
-                                {% endif %}
                             </div>
                         </div>
 
@@ -68,8 +109,10 @@
                             <p>
                                 <i class='bx bx-time-five'></i>    
                                 {{conf.event.start_time.time}}
-                                {% if conf.event.end_time %}
-                                    - {{conf.event.end_time.time}}
+                                {% if conf.event.end_time and conf.event.start_time.date != conf.event.end_time.date %}
+                                - {{conf.event.end_time.time}}&nbsp<span class="fw-bold">{{conf.event.end_time.date}}</span>
+                                {% elif conf.event.end_time and conf.event.start_time.date == conf.event.end_time.date %}
+                                - {{conf.event.end_time.time}}
                                 {% endif %}</p>
                         </div>
 
@@ -97,11 +140,80 @@
                 </div>
 
             </li>
-            <b class="hr-rainbow"></b>
             <hr class="hr-custom">
             {% endfor %}
 
-        </ul>   
+        </ul>
+        {% else %}
+        <div class="alert alert-success mx-2 mt-3">
+            Нет активных сеансов.
+        </div>
+        {% endif %}
+        </div>
+        
+        <div class="col-3-md">
+            {% if planned_count > 0 %}
+            <h3 class="list-title">Запланированные сеансы</h3>
+    
+            <ul class = "list-group-flush">
+                <hr class="hr-custom">
+    
+                {% for conf in planned %}
+                <li class = "list-group-item align-items-start">
+                    <div class="row">
+                        <div class = "col-sm-2">
+    
+                            <div class = "c-date">
+                                <div class="fw-bold">
+                                    <i class='bx bx-calendar' ></i>{{conf.event.start_time.date}}
+                                </div>
+                            </div>
+    
+                            <div class = "c-time">
+                                <p>
+                                    <i class='bx bx-time-five'></i>    
+                                    {{conf.event.start_time.time}}
+                                    {% if conf.event.end_time and conf.event.start_time.date != conf.event.end_time.date %}
+                                    - {{conf.event.end_time.time}}&nbsp<span class="fw-bold">{{conf.event.end_time.date}}</span>
+                                    {% elif conf.event.end_time and conf.event.start_time.date == conf.event.end_time.date %}
+                                    - {{conf.event.end_time.time}}
+                                    {% endif %}</p>
+                            </div>
+    
+                        </div>
+    
+                        <div class="col-sm-10">
+                            <div class = "fw-bold conf_name">
+                                {% if conf.event.live %}
+                                <span class = "badge bg-danger rounded-pill">LIVE</span>
+                                {% endif %}
+                                {{conf.event.name}}
+                            </div>
+    
+                            <div class = "text-muted conf_text">{{conf.event.notes}}</div>
+    
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col">
+                            <div class = "detail-ref">
+                                <a href="{{conf.get_absolute_url}}"><i class='bx bx-link-external' ></i>&nbspПерейти</a>
+                            </div>
+                        </div>
+                    </div>
+    
+                </li>
+                <hr class="hr-custom">
+                {% endfor %}
+    
+            </ul>
+            {% else %}
+            <div class="alert alert-success mx-2 mt-3">
+                Нет запланированных сеансов.
+            </div>
+            {% endif %}
+        </div>
     </div>
     
 </div>

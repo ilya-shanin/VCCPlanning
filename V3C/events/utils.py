@@ -13,8 +13,14 @@ class Calendar(HTMLCalendar):
     def formatday(self, day, events):
         day_events = events.filter(start_time__day=day)
         output_day = ''
-        if day_events.count() > 0:
-            output_day += f'<div class="day-content"><span class = "badge bg-primary rounded-pill">{day_events.count()}</span></div>'
+        if day_events.count() > 3:
+            output_day += f'<div class="day-content"><span class = "badge bg-primary rounded-pill">{day_events.count()}&nbspсобытий</span></div>'
+        elif 3 > day_events.count() > 0:
+            print(day_events)
+            output_day += f'<div class="day-content">'
+            for e in day_events:
+                output_day += f'<div class="cal-event-name"><span class = "badge bg-primary rounded-pill">{e.name}</span></div>'
+            output_day += '</div>'
         else:
             output_day += f'<div class="day-content"><span>&nbsp</span></div>'
 
@@ -22,7 +28,7 @@ class Calendar(HTMLCalendar):
         #    output_day += f'<li class="cal-event-name"> {event.name} </li>'
 
         if day != 0:
-            return f'<td class="cal-day"><div class="date">{day}</div>{output_day}</td>'
+            return f'<td class="cal-day" datetime="{day}-{self.month}-{self.year}"><div class="date">{day}</div>{output_day}</td>'
         return '<td class="no-day"></td>'
 
     def formatweek(self, theweek, events):

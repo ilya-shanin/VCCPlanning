@@ -22,9 +22,6 @@
                         <div class = "c-date">
                             <div class="fw-bold">
                                 <i class='bx bx-calendar' ></i>{{conf.start_time.date}}
-                                {% if conf.end_time and conf.start_time.date != conf.end_time.date %}
-                                - {{conf.end_time.date}}
-                                {% endif %}
                             </div>
                         </div>
 
@@ -32,8 +29,10 @@
                             <p>
                                 <i class='bx bx-time-five'></i>    
                                 {{conf.start_time.time}}
-                                {% if conf.end_time %}
-                                    - {{conf.end_time.time}}
+                                {% if conf.end_time and conf.start_time.date != conf.end_time.date %}
+                                - {{conf.end_time.time}}&nbsp<span class="fw-bold">{{conf.end_time.date}}</span>
+                                {% elif conf.end_time and conf.start_time.date == conf.end_time.date %}
+                                - {{conf.end_time.time}}
                                 {% endif %}</p>
                         </div>
 

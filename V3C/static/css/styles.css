@@ -41,6 +41,10 @@ a{text-decoration: none}
     margin: 5px;
 }
 
+#fc-dom-1{
+    text-align: center;
+}
+
 #calendar .fc-button:hover{
     background-color: var(--secondary-color);
     color: var(--primary-color-light);
@@ -54,6 +58,7 @@ a{text-decoration: none}
 
 /* displaying events list */
 .list-title{
+    margin-top: 30px;
     padding-left: 32px;
 }
 
@@ -79,6 +84,7 @@ a{text-decoration: none}
 
 .hr-custom {
     margin: 0;
+    height: thin;
 }
 
 .detail-ref{

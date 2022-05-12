@@ -9,10 +9,13 @@ class DashboardView(LoginRequiredMixin, View):
     template_name = 'dashboard.html'
 
     def get(self, request, *args, **kwargs):
-        confs = Participant.objects.get_all_user_events(user=request.user)
+        #confs = Participant.objects.get_all_user_events(user=request.user)
         running_confs = Participant.objects.get_running_events(user=request.user)
+        planned_confs = Participant.objects.get_planned_events(user=request.user)
         context = {
-            'total_count': confs.count(),
-            'now_running': running_confs
+            'total_count': running_confs.count(),
+            'now_running': running_confs,
+            'planned': planned_confs,
+            'planned_count': planned_confs.count()
         }
         return render(request, self.template_name, context)

@@ -33,7 +33,7 @@ STATIC_DIR = 'static'
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = str(os.getenv('DEBUG'))
 
 ALLOWED_HOSTS = []
 
@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'events.apps.EventsConfig',
-    'participants.apps.ParticipantsConfig'
+    'participants.apps.ParticipantsConfig',
+    'maintenance_mode'
 ]
 
 MIDDLEWARE = [
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'maintenance_mode.middleware.MaintenanceModeMiddleware' #last
 ]
 
 ROOT_URLCONF = 'V3C.urls'
@@ -76,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'maintenance_mode.context_processors.maintenance_mode',
             ],
         },
     },

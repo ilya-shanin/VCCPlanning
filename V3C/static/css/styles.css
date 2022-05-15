@@ -245,3 +245,20 @@ a{text-decoration: none}
 @media screen and (max-width: 768px){
    .nav_logo{display: none;}
 }
+
+.r503 .bx-info-circle{
+    font-size: 3em;
+}
+
+.r503 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: center;
+    text-align: center;
+}
+
+.r503-inner{
+    max-width: 500px;
+}

@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MinValueValidator
 from django.urls import reverse
 
 class EventAbstract(models.Model):

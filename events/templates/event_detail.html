@@ -61,7 +61,8 @@
     <div class="row">
         <div class="col col-xs-12 conf_conn">
             <h3>Подключение</h3>
-            <div><span class="fw-bold text-break">Ссылка для подключения: </span>{{conf.con_reference}}</div>
+            <div><span class="fw-bold text-break">Ссылка для подключения: </span>
+                {% if conf.haslink %}<a href="{{conf.con_reference}}">{{conf.con_reference}}</a>{% else %}{{conf.con_reference}}{% endif %}</div>
             <div><span class="fw-bold text-break">Пароль:</span> {{conf.con_pass}}</div>
 
             <a href="{% url 'events:events-list' %}" class="btn btn-outline-primary mt-4" role="button">Список всех сеансов</a>

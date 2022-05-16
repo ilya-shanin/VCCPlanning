@@ -7,10 +7,12 @@
 {% block content %}
 <div class="content">
         <div class="d-flex justify-content-center">
-            <div class="btn-group my-3">
-                <a class="btn btn-outline-primary" href="{% url 'events:event-calendar' %}?{{ prev_month }}"> Предыдущий месяц </a>
-                <a class="btn btn-outline-primary" href="{% url 'events:event-calendar' %}"> Сегодня </a>
-                <a class="btn btn-outline-primary" href="{% url 'events:event-calendar' %}?{{ next_month }}"> Следующий месяц </a>
+            <div class="pagination">
+                <div class="btn-group my-3">
+                    <a class="btn btn-outline-primary" href="{% url 'events:event-calendar' %}?{{ prev_month }}"> Предыдущий месяц </a>
+                    <a class="btn btn-outline-primary" href="{% url 'events:event-calendar' %}"> Сегодня </a>
+                    <a class="btn btn-outline-primary" href="{% url 'events:event-calendar' %}?{{ next_month }}"> Следующий месяц </a>
+                </div>
             </div>
         </div>
         <div class="d-flex justify-content-center table-responsive-sm">

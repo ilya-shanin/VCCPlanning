@@ -1,8 +1,11 @@
 from django.db import models
+from jsonschema import ValidationError
 from events.models import EventAbstract
+from django.core.validators import URLValidator
 
 class ConferenceManager(models.Manager):
     pass
+
 
 class Conference(EventAbstract):
     name =              models.CharField(
@@ -22,7 +25,8 @@ class Conference(EventAbstract):
                                         max_length=255,
                                         blank=True,
                                         default='Не требуется')
-
+    #objects = ConferenceManager()
+    
     class Meta:
         verbose_name =          'Конференция'
         verbose_name_plural =   'Конференции'

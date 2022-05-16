@@ -35,9 +35,9 @@ STATIC_DIR = 'static'
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.getenv('DEBUG'), default = 'True')
+DEBUG = str(os.getenv('DEBUG', default = 'True'))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['hexscan.ru', '127.0.0.1']
 
 
 # Application definition
@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'V3C.wsgi.application'
 
 #DATABASES = {
 #    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
+#        'ENGINE': 'django.db.backends.mysql',
 #        'NAME': str(os.getenv('DB_NAME')),
 #        'USER': str(os.getenv('DB_USER')),
 #        'PASSWORD': str(os.getenv('DB_PASSWORD')),

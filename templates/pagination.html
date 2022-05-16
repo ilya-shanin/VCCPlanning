@@ -1,0 +1,21 @@
+{% block pagination %}
+<div class="pagination">
+    <span class="step-links">
+        <div class="btn-group" role="group">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="btn btn-outline-primary" role="button">&laquo; Первая</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary" role="button">Предыдущая</a>
+            {% endif %}
+    
+            <span class="current btn btn-primary disabled">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary" role="button">Следующая</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-primary" role="button">Последняя &raquo;</a>
+            {% endif %}
+        </div>
+    </span>
+</div>
+{% endblock pagination %}

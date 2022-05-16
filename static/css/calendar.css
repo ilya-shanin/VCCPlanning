@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap');
+/* main */
+:root{--header-height: 3rem;
+    --nav-width: 68px;
+    --primary-color: #223072;
+    --secondary-color: #939ece;
+    --primary-color-light: #e4ecf7;
+    --white-color: #F7F6FB;
+    --body-font: 'Nunito', sans-serif;
+    --body-font2: 'Inter', sans-serif;
+    --normal-font-size: 1rem;
+    --z-fixed: 100}
+
+.calendar {
+  font-size: var(--normal-font-size);
+  font-family: var(--body-font);
+  table-layout: fixed;
+  min-width: 500px;
+  width: 80%;
+  border-collapse: collapse;
+  border-radius: 30px;
+  transition-property: all;
+  transition: all 0.4s;
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+}
+
+.calendar .date {
+  border-bottom: 2px solid black;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.calendar .day-content{
+  height: 40px;
+}
+.calendar .day-content .badge{
+  padding:8px;
+}
+
+.calendar .cal-event-name{
+  text-align: left;
+  margin: 4px;
+}
+
+.calendar td{
+  text-align: left; 
+  vertical-align: middle;
+  padding: 15px;
+}
+
+.calendar .cal-day{
+  transition-property: all;
+  transition: all 0.4s;
+}
+.calendar .cal-day:hover{
+  transform: scale(1.055);
+}
+
+.calendar th {
+  color: aliceblue;
+  text-align: center;
+  font-size: calc(var(--normal-font-size)*1.2);
+  width: 40px;
+  background-color: var(--primary-color);
+  padding: 5px;
+}
+ 
+.month {
+  font-size: 25px;
+  border-radius: 20px 20px 0 0;
+}
+  
+.date {
+  font-size: calc(var(--normal-font-size)*1.4);
+}
+  
+ul {
+  height: 100%;
+}
+  
+.left {
+  float: left;
+}
+  
+.right {
+  float: right;
+}

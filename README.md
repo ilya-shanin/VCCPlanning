@@ -10,14 +10,14 @@
 7.	Теперь, находясь в виртуальном окружении, установите необходимые для работы модули: six, Pillow, Django, pathlib2, mysqlclient (для работы с MySQL), python-dotenv.
 В корневом каталоге сайта создайте site.wsgi (либо укажите путь к существующему входному файлу в .htaccess):
 import os, sys
-activate_this = '/home/username/python/bin/activate_this.py'
+activate_this = '/home/username/envname/bin/activate_this.py'
 with open(activate_this) as f:
   exec(f.read(), {'__file__': activate_this})
 sys.path.insert(0, os.path.join('/home/username/domains/domain.ru/myproject'))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'myproject.settings'
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
-Замените username на логин вашего аккаунта, domain.ru — на доменное имя вашего сайта.
+Замените username на логин вашего аккаунта, domain.ru — на доменное имя вашего сайта, envname — имя виртуальной среды.
 8.	Активируйте WSGI в файле .htaccess (для apache). Аналогичные инструкции также есть для nginx, обычно они предоставляются хостингом: 
 DirectoryIndex site.wsgi
 Options +ExecCGI
@@ -33,3 +33,14 @@ a.	python manage.py makemigrations
 b.	python manage.py migrate
 c.	python manage.py collectstatic
 d.	python manage.py createsuperuser – создание суперпользователя.
+# Обслуживание статических файлов
+Статические файлы здесь обслуживаются через приложение Django, что не является очень эффективным способом. Рекомендуется использовать для этого веб-сервер.
+Пример для Apache:
+Alias /static /home/username/domains/domain.ru/projectname/static_collected
+<Directory "/home/username/domains/domain.ru/projectname/static_collected">
+    Require all granted
+</Directory>
+Alias /media /home/username/domains/domain.ru/projectname/media
+<Directory "/home/username/domains/domain.ru/projectname/media">
+    Require all granted
+</Directory>

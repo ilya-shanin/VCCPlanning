@@ -10,23 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from email.policy import default
 from pathlib import Path
 import os
-from dotenv import load_dotenv
 from django.urls import reverse_lazy
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-dotevn_path = BASE_DIR.joinpath('.env')
-load_dotenv()  # loads the configs from .env
+BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+dotenv_path = BASE_DIR.joinpath('.env')
+load_dotenv(dotenv_path)
 
-ENVIRONMENT = os.getenv('ENVIRONMENT', default = 'development')
+ENVIRONMENT = str(os.getenv('ENVIRONMENT', default = 'development'))
 # ADDED DIRS PATH 
-TEMPLATES_DIR = 'templates'
-STATIC_DIR = 'static'
-#TEMPLATES_DIR = BASE_DIR.joinpath('templates')
-#STATIC_DIR = BASE_DIR.joinpath('static')
+#TEMPLATES_DIR = 'templates'
+TEMPLATES_DIR = BASE_DIR.joinpath('templates')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -35,9 +33,10 @@ STATIC_DIR = 'static'
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.getenv('DEBUG', default = 'True'))
+DEBUG = os.getenv('DEBUG', default = True)
+DEBUG = False
 
-ALLOWED_HOSTS = ['hexscan.ru', '127.0.0.1']
+ALLOWED_HOSTS = ['hexscan.ru', 'xsph.ru', '127.0.0.1']
 
 
 # Application definition
@@ -51,8 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'events.apps.EventsConfig',
-    'participants.apps.ParticipantsConfig',
-    'maintenance_mode'
+    'participants.apps.ParticipantsConfig'
+    
 ]
 
 MIDDLEWARE = [
@@ -62,8 +61,8 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'maintenance_mode.middleware.MaintenanceModeMiddleware' #last
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
+    
 ]
 
 ROOT_URLCONF = 'V3C.urls'
@@ -80,7 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'maintenance_mode.context_processors.maintenance_mode',
+                
             ],
         },
     },
@@ -145,8 +144,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = 'static/'
+STATIC_DIR = 'static'
+STATIC_ROOT = BASE_DIR.joinpath('static_collected')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (STATIC_DIR,)
+STATICFILES_FINDERS = (
+'django.contrib.staticfiles.finders.FileSystemFinder',
+'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -160,8 +165,6 @@ AUTH_USER_MODEL = "accounts.User"
 
 MEDIA_ROOT = BASE_DIR.joinpath('media')
 MEDIA_URL = '/media/'
-
-STATICFILES_DIRS = [STATIC_DIR]
 
 # email configs
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

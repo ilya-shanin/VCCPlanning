@@ -76,6 +76,7 @@ class ProfileEditForm(forms.ModelForm):
             #validate dimensions
             max_width = max_height = 400
             if image.width > max_width or image.height > max_height:
+                image.open()
                 img = Image.open(image)
                 size = (max_width, max_height)
                 image = img.thumbnail(size)

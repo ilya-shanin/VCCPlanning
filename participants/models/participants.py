@@ -68,7 +68,7 @@ class Participant(models.Model):
     class Meta:
         verbose_name =          'Участник'
         verbose_name_plural =   'Участники'
-
+        ordering = ['event__start_time']
         unique_together = ['user', 'event']
 
     def __str__(self):

@@ -14,11 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import re_path, path, include
 from django.conf import settings
 from V3C.views import DashboardView
 from django.conf.urls.static import static
+from django.views.static import serve
 
+static_urlpatterns = [
+                re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
+                re_path(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
+]
 urlpatterns = [
                 path('admin/', admin.site.urls, name = 'admin'),
 ]
@@ -27,5 +32,6 @@ urlpatterns += [
                 path('', DashboardView.as_view(), name = 'dashboard'),
                 path('accounts/', include('accounts.urls', namespace = 'accounnts')),
                 path('events/', include('events.urls', namespace = 'events')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                path('', include(static_urlpatterns)),
+] #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

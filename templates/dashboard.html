@@ -54,14 +54,14 @@
             navLinks: true, // can click day/week names to navigate views
             locale: 'ru',
             windowResize: function(view) {
-                if (window.innerWidth >= 768 ) {
+                if (window.innerWidth <= 768) {
+                    if(calendar.view.type == 'dayGridMonth'){
+                        calendar.changeView('list');
+                        $('.fc-dayGridMonth-button').hide();
+                    }
+                } else {
                     calendar.changeView('dayGridMonth');
                     $('.fc-dayGridMonth-button').show();
-                    $('#fc-dom-1').show();
-                } else {
-                    calendar.changeView('list');
-                    $('.fc-dayGridMonth-button').hide();
-                    $('#fc-dom-1').hide();
                 }
             },
         });
@@ -78,7 +78,21 @@
             }
             );
         {% endfor %}
-        
+        {% for conf in planned %}
+        calendar.addEvent(
+            {
+                id: '{{conf.event.pk}}',
+                title: '{{conf.event.name}}',
+                color: '#223072',
+                url: '{{conf.event.get_absolute_url}}',
+                start: new Date({{conf.event.start_time|date:"U"}}*1000),
+                {% if conf.event.end_time %}
+                end: new Date({{conf.event.end_time|date:"U"}}*1000)
+                {% endif %}
+            }
+            );
+        {% endfor %}
+
         calendar.render();
         
         $('#toggle_sidebar').click(function(){
@@ -141,7 +155,7 @@
                 <div class="row">
                     <div class="col">
                         <div class = "detail-ref">
-                            <a href="{{conf.get_absolute_url}}"><i class='bx bx-link-external' ></i>&nbspПерейти</a>
+                            <a href="{{conf.event.get_absolute_url}}"><i class='bx bx-link-external' ></i>&nbspПерейти</a>
                         </div>
                     </div>
                 </div>
@@ -205,7 +219,7 @@
                     <div class="row">
                         <div class="col">
                             <div class = "detail-ref">
-                                <a href="{{conf.get_absolute_url}}"><i class='bx bx-link-external' ></i>&nbspПерейти</a>
+                                <a href="{{conf.event.get_absolute_url}}"><i class='bx bx-link-external' ></i>&nbspПерейти</a>
                             </div>
                         </div>
                     </div>

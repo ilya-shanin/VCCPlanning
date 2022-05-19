@@ -1,7 +1,5 @@
 from django.db import models
-from jsonschema import ValidationError
 from events.models import EventAbstract
-from django.core.validators import URLValidator
 
 class ConferenceManager(models.Manager):
     pass
@@ -30,6 +28,7 @@ class Conference(EventAbstract):
     class Meta:
         verbose_name =          'Конференция'
         verbose_name_plural =   'Конференции'
+        ordering = ('-start_time',)
 
     def __str__(self):
         return self.name

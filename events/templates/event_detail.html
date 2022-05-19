@@ -50,7 +50,7 @@
                         </div>
                         <div class="col partic_user">
                             <div>{{p.user.first_name}}&nbsp{{p.user.last_name}}</div>
-                            <div class="small text-muted">{{p.user.job}}</div>
+                            <div class="small text-muted">{% if p.user.job %}{{p.user.job}},&nbsp{% endif %}{{p.role}}</div>
                         </div>
                     </div>
                 {% endfor %}

@@ -8,16 +8,16 @@
 5.	Создать виртуальное окружение для python. Рекомендуется использовать python 3.8.0 Виртуальное окружение можно создать при помощи пакета python virtualenv (команда ‘pip install «наименование пакета» --user’ для установки, параметр user гарантирует, что вам не понадобятся дополнительные права для установки пакета).
 6.	Выполните команду virtualenv --system-site-packages «наименование окружения». Это позволит задействовать внутри окружения модули, установленные на сервере. Чтобы активировать виртуальное окружение: source ~/«наимеование окружения»/bin/activate.
 7.	Теперь, находясь в виртуальном окружении, установите необходимые для работы модули: six, Pillow, Django, pathlib2, mysqlclient (для работы с MySQL), python-dotenv.
-В корневом каталоге сайта создайте site.wsgi (либо укажите путь к существующему входному файлу в .htaccess):
-import os, sys
-activate_this = '/home/username/envname/bin/activate_this.py'
-with open(activate_this) as f:
-  exec(f.read(), {'__file__': activate_this})
-sys.path.insert(0, os.path.join('/home/username/domains/domain.ru/myproject'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'myproject.settings'
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
-Замените username на логин вашего аккаунта, domain.ru — на доменное имя вашего сайта, envname — имя виртуальной среды.
+В корневом каталоге сайта создайте site.wsgi (либо укажите путь к существующему входному файлу в .htaccess):  
+import os, sys  
+activate_this = '/home/username/envname/bin/activate_this.py'  
+with open(activate_this) as f:  
+  exec(f.read(), {'__file__': activate_this})  
+sys.path.insert(0, os.path.join('/home/username/domains/domain.ru/myproject'))  
+os.environ['DJANGO_SETTINGS_MODULE'] = 'myproject.settings'  
+from django.core.wsgi import get_wsgi_application  
+application = get_wsgi_application()  
+Замените username на логин вашего аккаунта, domain.ru — на доменное имя вашего сайта, envname — имя виртуальной среды, myproject — имя проекта.
 8.	Активируйте WSGI в файле .htaccess (для apache). Аналогичные инструкции также есть для nginx, обычно они предоставляются хостингом: 
 DirectoryIndex site.wsgi
 Options +ExecCGI
@@ -36,11 +36,11 @@ d.	python manage.py createsuperuser – создание суперпользо�
 # Обслуживание статических файлов
 Статические файлы здесь обслуживаются через приложение Django, что не является очень эффективным способом. Рекомендуется использовать для этого веб-сервер.
 Пример для Apache:
-Alias /static /home/username/domains/domain.ru/projectname/static_collected
-<Directory "/home/username/domains/domain.ru/projectname/static_collected">
-    Require all granted
-</Directory>
-Alias /media /home/username/domains/domain.ru/projectname/media
-<Directory "/home/username/domains/domain.ru/projectname/media">
-    Require all granted
-</Directory>
+Alias /static /home/username/domains/domain.ru/projectname/static_collected  
+<Directory "/home/username/domains/domain.ru/projectname/static_collected">  
+    Require all granted  
+</Directory>  
+Alias /media /home/username/domains/domain.ru/projectname/media  
+<Directory "/home/username/domains/domain.ru/projectname/media">  
+    Require all granted  
+</Directory>  
